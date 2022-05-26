@@ -1,17 +1,18 @@
 package com.example.payslipgenerator.dto;
 
-import jakarta.validation.constraints.Positive;
-import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 public class EmployeeDto {
-
+    @NotBlank(message = "first name cannot be blank")
     private String firstName;
-
+    @NotBlank(message = "last name cannot be blank")
     private String lastName;
 
-    @Positive(message = "please pass a non negative integer")
+    @Positive(message = "Please pass a non negative integer for annual salary")
     private Integer annualSalary;
-
+    @Positive(message = "Please pass a non negative double value for Super Rate")
     private Double superRate;
 
     public String getFirstName() {
