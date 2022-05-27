@@ -12,16 +12,28 @@ import java.util.List;
 public class PaySlipGeneratorImpl implements PaySlipGenerator {
     @Override
     public List<EmployeeDtoResponse> generatePaySlips(List<EmployeeDto> employeeDtoList) {
-        employeeDtoList.forEach(System.out::println);
         List<EmployeeDtoResponse> list = new ArrayList<>();
-        EmployeeDtoResponse employeeDtoResponse = new EmployeeDtoResponse();
-        employeeDtoResponse.setEmployee(employeeDtoList.get(0));
-        list.add(employeeDtoResponse);
+        employeeDtoList.forEach(
+                employeeDto -> list.add(generatePaySlip(employeeDto))
+
+        );
+
         return list;
     }
 
     @Override
     public EmployeeDtoResponse generatePaySlip(EmployeeDto employeeDto) {
-        return null;
+        EmployeeDtoResponse employeeDtoResponse = new EmployeeDtoResponse();
+        //calculate tax
+        employeeDtoResponse.setEmployee(employeeDto);
+        employeeDtoResponse.setIncomeTax(calculateTax(employeeDto.getAnnualSalary()));
+        //calculate super
+
+        return  employeeDtoResponse;
+    }
+
+    private Integer calculateTax(Integer annualSalary) {
+
+        return (int) (annualSalary * 0.20);
     }
 }

@@ -14,7 +14,6 @@ import java.util.List;
 public class CustomExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<List<String>> dtoValidationException(ConstraintViolationException exception){
 
         List<String> errors = new ArrayList<>();
