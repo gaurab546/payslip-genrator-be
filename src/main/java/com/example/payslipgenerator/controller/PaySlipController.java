@@ -29,8 +29,5 @@ public class PaySlipController {
        return ResponseEntity.ok(paySlipGenerator.generatePaySlips(employeeDtoList));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "hello")
-    public String hello(){
-        return "hello";
-    }
+
 }
