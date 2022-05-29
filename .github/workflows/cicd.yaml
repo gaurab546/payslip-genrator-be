@@ -7,7 +7,7 @@ name: payslip-generator CI/CD pipeline
 
 jobs:
 
-  unit-tests:
+  tests:
     runs-on: ubuntu-latest
     environment: production
 
@@ -18,27 +18,13 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Build with Maven and Test
+      - name: Run all Unit and Integration Test
         run: mvn test
 
-  integration-tests:
-    needs: unit-tests
-    runs-on: ubuntu-latest
-    environment: production
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-      - name: Run Unit tests
-        run: mvn test
 
   publish-image-to-ecr:
     if: false
-    needs: integration-tests
+    needs: tests
     runs-on: ubuntu-latest
     environment: production
 
