@@ -26,43 +26,53 @@ public class PaySlipGeneratorImpl implements PaySlipGenerator {
         EmployeeDtoResponse employeeDtoResponse = new EmployeeDtoResponse();
         //calculate tax
         employeeDtoResponse.setEmployee(employeeDto);
-        employeeDtoResponse.setIncomeTax(calculateTax(employeeDto.getAnnualSalary()));
-        employeeDtoResponse.setGrossIncome(calculateGrossIncome(employeeDto));
-        employeeDtoResponse.setSuperAnnuation(calculateSuperIncome(employeeDto));
+        employeeDtoResponse.setIncomeTax((int) Math.round(calculateTax(employeeDto.getAnnualSalary())));
+        employeeDtoResponse.setGrossIncome(calculateGrossIncome(employeeDto.getAnnualSalary()));
+        employeeDtoResponse.setSuperAnnuation(calculateSuperIncome(employeeDto.getAnnualSalary(), employeeDto.getSuperRate()));
+        employeeDtoResponse.setNetIncome(calculateNetIncome(employeeDto.getAnnualSalary()));
         //calculate super
 
         return  employeeDtoResponse;
     }
 
-    private Integer calculateTax(Integer annualSalary) {
-        int tax;
-        if (annualSalary <= 18200) {
-            tax = 0;
-        } else if (annualSalary <= 37000) {
-            tax = (annualSalary - 18200) * (int)0.19;
-        } else if (annualSalary <= 87000) {
-            tax = (annualSalary - 37000) * (int)0.325 + 3572;
-        } else if (annualSalary <= 180000) {
-            tax = (annualSalary - 87000) * (int)0.37 + 19822;
-        } else {
-            tax = (annualSalary - 180000) * (int)0.45 + 54232;
-        }
-        return (int) (annualSalary * tax);
+    private Double calculateTax(Integer annualSalary) {
+        double tax = 0.0;
+//        if (annualSalary <= 18200) {
+//            tax = 0;
+//        } else if (annualSalary <= 37000) {
+//            tax = (annualSalary - 18200) * (int)0.19;
+//        } else if (annualSalary <= 87000) {
+//            tax = (annualSalary - 37000) * (int)0.325 + 3572;
+//        } else if (annualSalary <= 180000) {
+//            tax = (annualSalary - 87000) * (int)0.37 + 19822;
+//        } else {
+//            tax = (annualSalary - 180000) * (int)0.45 + 54232;
+//        }
+//        return (int) (annualSalary * tax);
+
+        if (annualSalary > 18200)
+            if(annualSalary <= 37000)
+                tax = (annualSalary - 18200) * 0.19;
+            else if (annualSalary > 37001 && annualSalary <= 87000)
+                tax = (annualSalary - 37000) * 0.325 + 3572;
+            else if (annualSalary > 87000 && annualSalary <= 180000)
+                tax = (annualSalary - 87000) * 0.37 + 19822;
+            else
+                tax = (annualSalary - 180000) * 0.45 + 54232;
+        return tax;
     }
 
-    private Integer calculateGrossIncome(EmployeeDto employeeDto){
-        double grossIncome = employeeDto.getAnnualSalary() / 12;
-        return (int) Math.round(grossIncome);
+    private Integer calculateGrossIncome(Integer annualSalary){
+        return Math.round(annualSalary / 12);
     }
 
-    private Integer calculateNetIncome( EmployeeDto employeeDto){
-        double netIncome = calculateGrossIncome(employeeDto) - calculateTax(employeeDto.getAnnualSalary());
+    private Integer calculateNetIncome( Integer annualSalary){
+        double netIncome = calculateGrossIncome(annualSalary) - (calculateTax(annualSalary)/12);
         return (int) Math.round(netIncome);
     }
 
-    private Integer calculateSuperIncome(EmployeeDto employeeDto){
-        double superIncome = 10 + calculateGrossIncome(employeeDto);
-        return (int) Math.round(superIncome);
+    private Integer calculateSuperIncome(Integer annualSalary, Double superRate){
+        return (int) Math.round(calculateGrossIncome(annualSalary) * (superRate/100));
     }
 
 }
