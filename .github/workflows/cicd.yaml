@@ -19,7 +19,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Build with Maven and Test
-        run: mvn install test
+        run: mvn test
 
   integration-tests:
     needs: unit-tests
@@ -33,10 +33,11 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: Build with Maven and Test
-        run: mvn install test
+      - name: Run Unit tests
+        run: mvn test
 
   publish-image-to-ecr:
+    if: false
     needs: integration-tests
     runs-on: ubuntu-latest
     environment: production
