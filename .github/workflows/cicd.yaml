@@ -3,7 +3,7 @@ on:
   push:
     branches: [master]
 
-name: mars-service CI/CD pipeline
+name: payslip-generator CI/CD pipeline
 
 jobs:
 
