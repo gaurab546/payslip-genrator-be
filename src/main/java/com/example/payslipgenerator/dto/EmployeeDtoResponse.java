@@ -6,8 +6,8 @@ import java.time.LocalDate;
 public class EmployeeDtoResponse {
 
     private EmployeeDto employee;
-    private LocalDate fromDate;
-    private LocalDate toDate;
+    private String fromDate;
+    private String toDate;
     private Integer grossIncome;
     private Integer incomeTax;
     private Integer superAnnuation;
@@ -24,19 +24,19 @@ public class EmployeeDtoResponse {
         this.employee = employee;
     }
 
-    public LocalDate getFromDate() {
+    public String getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(LocalDate fromDate) {
+    public void setFromDate(String  fromDate) {
         this.fromDate = fromDate;
     }
 
-    public LocalDate getToDate() {
+    public String  getToDate() {
         return toDate;
     }
 
-    public void setToDate(LocalDate toDate) {
+    public void setToDate(String toDate) {
         this.toDate = toDate;
     }
 
