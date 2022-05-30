@@ -1,10 +1,7 @@
 package com.example.payslipgenerator.controller;
 
 import com.example.payslipgenerator.dto.EmployeeDto;
-import com.example.payslipgenerator.dto.EmployeeDtoResponse;
-import com.example.payslipgenerator.service.serviceImpl.PaySlipGeneratorImpl;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
