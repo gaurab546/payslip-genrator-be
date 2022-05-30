@@ -1,7 +1,7 @@
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 name: payslip-generator CI/CD pipeline
 
