@@ -36,8 +36,8 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-        - name: Run all Unit and Integration Test
-          run: mvn package
+      - name: Create Jar File
+        run: mvn package
 
 
       - name: Configure AWS credentials
