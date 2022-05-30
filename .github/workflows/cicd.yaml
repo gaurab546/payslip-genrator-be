@@ -47,7 +47,7 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: mars-ecr-dev
+          ECR_REPOSITORY: payslip-generator
           IMAGE_TAG: ${{ github.sha }}
         run: |
           # Build a docker container and
