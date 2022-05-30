@@ -5,8 +5,11 @@ import com.example.payslipgenerator.dto.EmployeeDtoResponse;
 import com.example.payslipgenerator.service.PaySlipGenerator;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PaySlipGeneratorImpl implements PaySlipGenerator {
@@ -15,9 +18,7 @@ public class PaySlipGeneratorImpl implements PaySlipGenerator {
         List<EmployeeDtoResponse> list = new ArrayList<>();
         employeeDtoList.forEach(
                 employeeDto -> list.add(generatePaySlip(employeeDto))
-
         );
-
         return list;
     }
 
@@ -30,7 +31,10 @@ public class PaySlipGeneratorImpl implements PaySlipGenerator {
         employeeDtoResponse.setGrossIncome(calculateGrossIncome(employeeDto.getAnnualSalary()));
         employeeDtoResponse.setSuperAnnuation(calculateSuperIncome(employeeDto.getAnnualSalary(), employeeDto.getSuperRate()));
         employeeDtoResponse.setNetIncome(calculateNetIncome(employeeDto.getAnnualSalary()));
-        //calculate super
+
+        //calculate date (start and end) 1 for start and 2 for end
+        employeeDtoResponse.setFromDate("01 " + monthList(employeeDto.getPaymentMonth()));
+        employeeDtoResponse.setToDate(calculateEndDate(employeeDto.getPaymentMonth()));
 
         return  employeeDtoResponse;
     }
@@ -61,6 +65,42 @@ public class PaySlipGeneratorImpl implements PaySlipGenerator {
 
     private Integer calculateSuperIncome(Integer annualSalary, Double superRate){
         return (int) Math.round(calculateGrossIncome(annualSalary) * (superRate/100));
+    }
+
+    private String calculateEndDate(Integer paymentMonth){
+        //get last day of month and add the month name
+        switch (paymentMonth) {
+            case 3:
+            case 5:
+            case 8:
+            case 10:
+                return 30 + " " + monthList(paymentMonth);
+            case 1:
+                if(LocalDate.now().getYear() % 4 == 0)
+                    return 29 + " " + monthList(paymentMonth);
+                return 28 + " " + monthList(paymentMonth);
+            default:
+                return 31 + " " + monthList(paymentMonth);
+        }
+    }
+
+    private String monthList(Integer key){
+        Map<Integer, String> months = new HashMap<>(){{
+            put(0, "January");
+            put(1, "February");
+            put(2, "March");
+            put(3, "April");
+            put(4, "May");
+            put(5, "June");
+            put(6, "July");
+            put(7, "August");
+            put(8, "September");
+            put(9, "October");
+            put(10, "November");
+            put(11, "December");
+        }};
+        return months.get(key);
+
     }
 
 }

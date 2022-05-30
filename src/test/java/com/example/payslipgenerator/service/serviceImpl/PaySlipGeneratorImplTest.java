@@ -36,8 +36,11 @@ class PaySlipGeneratorImplTest {
         EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setAnnualSalary(20000);
         employeeDto.setSuperRate(0.5);
+        employeeDto.setPaymentMonth(5);
 
         EmployeeDtoResponse employeeDtoResponse = paySlipGenerator.generatePaySlip(employeeDto);
+        assertEquals("30 June", employeeDtoResponse.getToDate());
+        assertEquals("01 June", employeeDtoResponse.getFromDate());
 
         assertEquals(employeeDtoResponse.getEmployee().getAnnualSalary(), employeeDto.getAnnualSalary());
 
