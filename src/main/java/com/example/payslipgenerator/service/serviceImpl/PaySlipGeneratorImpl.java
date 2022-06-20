@@ -15,7 +15,7 @@ import java.util.Map;
 @Service
 public class PaySlipGeneratorImpl implements PaySlipGenerator {
 
-
+//value considered in application.properties
     @Value("${thresholdvalue_1}")
     private Double th1;
 
