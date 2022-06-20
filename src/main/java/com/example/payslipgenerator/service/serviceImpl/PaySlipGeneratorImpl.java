@@ -3,6 +3,7 @@ package com.example.payslipgenerator.service.serviceImpl;
 import com.example.payslipgenerator.dto.EmployeeDto;
 import com.example.payslipgenerator.dto.EmployeeDtoResponse;
 import com.example.payslipgenerator.service.PaySlipGenerator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,6 +14,39 @@ import java.util.Map;
 
 @Service
 public class PaySlipGeneratorImpl implements PaySlipGenerator {
+
+
+    @Value("${thresholdvalue_1}")
+    private Integer th1;
+
+    @Value("${thresholdvalue_2}")
+    private Integer th2;
+
+    @Value("${thresholdvalue_3}")
+    private Integer th3;
+
+    @Value("${thresholdvalue_4}")
+    private Integer th4;
+
+    @Value("${thresholdrate_1}")
+    private Integer thr1;
+    @Value("${thresholdvalue_2}")
+    private Integer thr2;
+    @Value("${thresholdvalue_3}")
+    private Integer thr3;
+    @Value("${thresholdvalue_4}")
+    private Integer thr4;
+
+    @Value("${taxrate_1}")
+    private Integer tx1;
+    @Value("${taxrate_2}")
+    private Integer tx2;
+    @Value("${taxrate_3}")
+    private Integer tx3;
+
+
+
+
     @Override
     public List<EmployeeDtoResponse> generatePaySlips(List<EmployeeDto> employeeDtoList) {
         List<EmployeeDtoResponse> list = new ArrayList<>();
@@ -42,15 +76,15 @@ public class PaySlipGeneratorImpl implements PaySlipGenerator {
     private Double calculateTax(Integer annualSalary) {
         double tax = 0.0;
 
-        if (annualSalary > 18200)
-            if(annualSalary <= 37000)
-                tax = (annualSalary - 18200) * 0.19;
-            else if (annualSalary > 37001 && annualSalary <= 87000)
-                tax = (annualSalary - 37000) * 0.325 + 3572;
-            else if (annualSalary > 87000 && annualSalary <= 180000)
-                tax = (annualSalary - 87000) * 0.37 + 19822;
+        if (annualSalary > th1)
+            if(annualSalary <= th2)
+                tax = (annualSalary - th1) * thr1;
+            else if (annualSalary > th2 && annualSalary <= th3)
+                tax = (annualSalary - th2) * thr2 + tx1;
+            else if (annualSalary > th3 && annualSalary <= th4)
+                tax = (annualSalary - th3) * thr3 + tx2;
             else
-                tax = (annualSalary - 180000) * 0.45 + 54232;
+                tax = (annualSalary - th4) * thr3 + tx3;
         return tax;
     }
 
