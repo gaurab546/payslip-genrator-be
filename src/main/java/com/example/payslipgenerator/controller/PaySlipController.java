@@ -23,6 +23,9 @@ public class PaySlipController {
     public PaySlipController(PaySlipGenerator paySlipGenerator) {
         this.paySlipGenerator = paySlipGenerator;
     }
+    //    public PaySlipController(PaySlipGenerator paySlipGenerator) {
+//        this.paySlipGenerator = paySlipGenerator;
+//    }
 
     @RequestMapping(method = RequestMethod.POST, value = "generate")
     public ResponseEntity<List<EmployeeDtoResponse>> generatePaySlip(@RequestBody @Valid List<EmployeeDto> employeeDtoList){
