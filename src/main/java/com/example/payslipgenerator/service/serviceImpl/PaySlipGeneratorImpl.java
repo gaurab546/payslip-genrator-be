@@ -29,13 +29,13 @@ public class PaySlipGeneratorImpl implements PaySlipGenerator {
     private Integer th4;
 
     @Value("${thresholdrate_1}")
-    private Integer thr1;
-    @Value("${thresholdvalue_2}")
-    private Integer thr2;
-    @Value("${thresholdvalue_3}")
-    private Integer thr3;
-    @Value("${thresholdvalue_4}")
-    private Integer thr4;
+    private Double thr1;
+    @Value("${thresholdrate_2}")
+    private Double thr2;
+    @Value("${thresholdrate_3}")
+    private Double thr3;
+    @Value("${thresholdrate_4}")
+    private Double thr4;
 
     @Value("${taxrate_1}")
     private Integer tx1;
