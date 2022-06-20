@@ -17,16 +17,16 @@ public class PaySlipGeneratorImpl implements PaySlipGenerator {
 
 
     @Value("${thresholdvalue_1}")
-    private Integer th1;
+    private Double th1;
 
     @Value("${thresholdvalue_2}")
-    private Integer th2;
+    private Double th2;
 
     @Value("${thresholdvalue_3}")
-    private Integer th3;
+    private Double th3;
 
     @Value("${thresholdvalue_4}")
-    private Integer th4;
+    private Double th4;
 
     @Value("${thresholdrate_1}")
     private Double thr1;
@@ -38,11 +38,11 @@ public class PaySlipGeneratorImpl implements PaySlipGenerator {
     private Double thr4;
 
     @Value("${taxrate_1}")
-    private Integer tx1;
+    private Double tx1;
     @Value("${taxrate_2}")
-    private Integer tx2;
+    private Double tx2;
     @Value("${taxrate_3}")
-    private Integer tx3;
+    private Double tx3;
 
 
 
