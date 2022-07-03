@@ -1,18 +1,18 @@
 package com.example.payslipgenerator.dto;
 
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 
 public class EmployeeDtoResponse {
 
     private EmployeeDto employee;
     private String fromDate;
     private String toDate;
-    private Integer grossIncome;
-    private Integer incomeTax;
-    private Integer superAnnuation;
+    private BigDecimal grossIncome;
+    private BigDecimal incomeTax;
+    private BigDecimal superAnnuation;
 
-    private Integer netIncome;
+    private BigDecimal netIncome;
 
 
     public EmployeeDto getEmployee() {
@@ -40,35 +40,35 @@ public class EmployeeDtoResponse {
         this.toDate = toDate;
     }
 
-    public Integer getGrossIncome() {
+    public BigDecimal getGrossIncome() {
         return grossIncome;
     }
 
-    public void setGrossIncome(Integer grossIncome) {
+    public void setGrossIncome(BigDecimal grossIncome) {
         this.grossIncome = grossIncome;
     }
 
-    public Integer getIncomeTax() {
+    public BigDecimal getIncomeTax() {
         return incomeTax;
     }
 
-    public void setIncomeTax(Integer incomeTax) {
+    public void setIncomeTax(BigDecimal incomeTax) {
         this.incomeTax = incomeTax;
     }
 
-    public Integer getSuperAnnuation() {
+    public BigDecimal getSuperAnnuation() {
         return superAnnuation;
     }
 
-    public void setSuperAnnuation(Integer superAnnuation) {
+    public void setSuperAnnuation(BigDecimal superAnnuation) {
         this.superAnnuation = superAnnuation;
     }
 
-    public Integer getNetIncome() {
+    public BigDecimal getNetIncome() {
         return netIncome;
     }
 
-    public void setNetIncome(Integer netIncome) {
+    public void setNetIncome(BigDecimal netIncome) {
         this.netIncome = netIncome;
     }
 

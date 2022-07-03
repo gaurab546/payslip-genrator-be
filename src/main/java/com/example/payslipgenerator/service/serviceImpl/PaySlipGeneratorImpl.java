@@ -6,11 +6,12 @@ import com.example.payslipgenerator.service.PaySlipGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static com.example.payslipgenerator.service.serviceImpl.TaxCalculatorImpl.calculateTax;
 
 @Service
 public class PaySlipGeneratorImpl implements PaySlipGenerator {
@@ -61,7 +62,7 @@ public class PaySlipGeneratorImpl implements PaySlipGenerator {
         EmployeeDtoResponse employeeDtoResponse = new EmployeeDtoResponse();
         //calculate tax
         employeeDtoResponse.setEmployee(employeeDto);
-        employeeDtoResponse.setIncomeTax((int) Math.round(calculateTax(employeeDto.getAnnualSalary())));
+        employeeDtoResponse.setIncomeTax(calculateTax(BigDecimal.valueOf(employeeDto.getAnnualSalary())).get());
         employeeDtoResponse.setGrossIncome(calculateGrossIncome(employeeDto.getAnnualSalary()));
         employeeDtoResponse.setSuperAnnuation(calculateSuperIncome(employeeDto.getAnnualSalary(), employeeDto.getSuperRate()));
         employeeDtoResponse.setNetIncome(calculateNetIncome(employeeDto.getAnnualSalary()));
@@ -73,32 +74,34 @@ public class PaySlipGeneratorImpl implements PaySlipGenerator {
         return  employeeDtoResponse;
     }
 
-    private Double calculateTax(Integer annualSalary) {
-        double tax = 0.0;
+//    private Double calculateTax(Integer annualSalary) {
+//        double tax = 0.0;
+//
+//        if (annualSalary > th1)
+//            if(annualSalary <= th2)
+//                tax = (annualSalary - th1) * thr1;
+//            else if (annualSalary > th2 && annualSalary <= th3)
+//                tax = (annualSalary - th2) * thr2 + tx1;
+//            else if (annualSalary > th3 && annualSalary <= th4)
+//                tax = (annualSalary - th3) * thr3 + tx2;
+//            else
+//                tax = (annualSalary - th4) * thr3 + tx3;
+//        return tax;
+//    }
 
-        if (annualSalary > th1)
-            if(annualSalary <= th2)
-                tax = (annualSalary - th1) * thr1;
-            else if (annualSalary > th2 && annualSalary <= th3)
-                tax = (annualSalary - th2) * thr2 + tx1;
-            else if (annualSalary > th3 && annualSalary <= th4)
-                tax = (annualSalary - th3) * thr3 + tx2;
-            else
-                tax = (annualSalary - th4) * thr3 + tx3;
-        return tax;
+    private BigDecimal calculateGrossIncome(Integer annualSalary){
+        return BigDecimal.valueOf(annualSalary / 12);
     }
 
-    private Integer calculateGrossIncome(Integer annualSalary){
-        return Math.round(annualSalary / 12);
+    private BigDecimal calculateNetIncome(Integer annualSalary){
+        Optional<BigDecimal> incomeTaxOptional = calculateTax(BigDecimal.valueOf(annualSalary));
+        BigDecimal incomeTax = incomeTaxOptional.get().divide(BigDecimal.valueOf(12), 0, RoundingMode.HALF_UP);
+        return calculateGrossIncome(annualSalary).subtract(incomeTax);
     }
 
-    private Integer calculateNetIncome( Integer annualSalary){
-        double netIncome = calculateGrossIncome(annualSalary) - (calculateTax(annualSalary)/12);
-        return (int) Math.round(netIncome);
-    }
-
-    private Integer calculateSuperIncome(Integer annualSalary, Double superRate){
-        return (int) Math.round(calculateGrossIncome(annualSalary) * (superRate/100));
+    private BigDecimal calculateSuperIncome(Integer annualSalary, Double superRate){
+        return calculateGrossIncome(annualSalary).multiply(BigDecimal.valueOf(superRate)).setScale(0,
+                RoundingMode.HALF_UP);
     }
 
     private String calculateEndDate(Integer paymentMonth){
